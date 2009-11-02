@@ -1,13 +1,89 @@
 SeleniumInovare
 ===============
 
-Introduction goes here.
+This plugin was created by Inovare - http://www.inovare.net
+
+I made this plugin based on these projects:
+* Selenium Remote Control - http://seleniumhq.org/projects/remote-control
+* Selenium Client - http://selenium-client.rubyforge.org
+* Selenium Poetry - http://improveit.com.br/en/opensource/selenium_poetry
+
+Quick Start
+===========
+
+1. Install the plugin with
+
+script/plugin install git://github.com/felipegiotto/selenium_inovare.git
+
+2. Install the gem dependency with
+
+sudo gem install selenium-client
+
+3. Open Selenium Remote Control with
+
+rake selenium:rc:start
+
+4. Open your application server with
+
+script/server
+
+5. Generate your tests with
+
+script/generate selenium_inovare_test YourTestSuiteName
+
+6. Edit your tests (inside test/selenium_inovare)
+
+7. Run your test suite with
+
+rake test:selenium:inovare
+
+8. There's no step 7! Go back to step 5 and move on!!
+
+Information
+===========
+
+By default, Selenium Remote Control runs on port 4444 and your application must be running
+at http://localhost:3000 with the 'development' environment (if you use fixtures).
+If you have a different configuration, change /test/selenium_inovare/config.yml
+accordingly (this file is auto-generated when you run the tests for the first time).
+
+For complete information about Selenium API, check http://selenium-client.rubyforge.org.
+
+You may create custom selectors (like Selenium Poetry does), creating YAML (.yml) files
+inside /test/selenium_inovare/selectors, like this:
+
+File general.yml (or any name you like):
+
+  link_to_new_person: //a[text()='New person']
+  notice: //p[@id='notice']
+
+After creating the YAML files, you can use all the Selenium Client locators this way:
+
+browser.click :link_to_new_person
+
+or
+
+assert browser.element?(:notice)
+
+There's a little more! You can use simpler locators:
+* Instead of using XPath locators like this:
+  browser.click "//a[text()='New Person']"
+  You can use this:
+  browser.click link('New Person')
+* Or, a more complete syntax: Instead of typing
+  browser.click "//a[text()='Log In'][@href='/login']"
+  You can use this:
+  browser.click link('Log In', '/login')
+* The same works for submit buttons. If you have only one submit button, you can use:
+  browser.click submit
+  If you have more than one submit button, you can use:
+  browser.click submit('Search')
+* It works too for inputs! Instead of using
+  browser.type "//input[name='login']", 'your_name'
+  Just use
+  browser.type input('login'), 'your_name'
+
+That's it!
 
 
-Example
-=======
-
-Example goes here.
-
-
-Copyright (c) 2009 [name of plugin creator], released under the MIT license
+Copyright (c) 2009 Felipe Giotto, released under the MIT license

@@ -1,8 +1,6 @@
 
 begin
-  puts "Carregando"
   require 'selenium/rake/tasks'
-  puts "Carregado"
 rescue LoadError
   raise("You should install selenium-client gem with 'sudo gem install selenium-client'")
 end

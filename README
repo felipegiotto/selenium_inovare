@@ -8,6 +8,8 @@ I made this plugin based on these projects:
 * Selenium Client - http://selenium-client.rubyforge.org
 * Selenium Poetry - http://improveit.com.br/en/opensource/selenium_poetry
 
+SeleniumInovare was tested with Rails 2.3.4 only (yet!)
+
 Quick Start
 ===========
 
@@ -35,7 +37,7 @@ script/generate selenium_inovare_test YourTestSuiteName
 
 7. Run your test suite with
 
-rake test:selenium:inovare
+rake test:selenium_inovare
 
 8. There's no step 7! Go back to step 5 and move on!!
 

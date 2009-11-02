@@ -9,8 +9,7 @@ class <%= class_name %>Test < SeleniumInovare::TestCase
     browser.open '/login'
     browser.type input('login'), 'quentin'
     browser.type "//a[@name='password']", 'monkey'
-    browser.click submit
-    browser.wait_for_page_to_load
+    browser.click_and_wait submit
   end
 
 end

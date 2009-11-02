@@ -58,6 +58,11 @@ module SeleniumInovare
       @@fixtures = fixtures
     end
 
+    def click_and_wait(*locator)
+      click(*locator)
+      wait_for_page_to_load
+    end
+
     def link(link_description, link_href = nil)
       tag = "//a[text()='#{link_description}']"
       if link_href

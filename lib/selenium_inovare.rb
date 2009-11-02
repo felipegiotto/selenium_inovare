@@ -38,6 +38,7 @@ module SeleniumInovare
   SELENIUM_CONFIG_FILE = RAILS_ROOT + '/test/selenium_inovare/config.yml'
 
   unless File.exists?(SELENIUM_CONFIG_FILE)
+    FileUtils.mkpath(File.dirname(SELENIUM_CONFIG_FILE))
     File.open SELENIUM_CONFIG_FILE, 'w' do |f|
       f.print DEFAULT_SELENIUM_PARAMS.to_yaml
     end

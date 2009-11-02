@@ -1,4 +1,11 @@
-require 'selenium/rake/tasks'
+
+begin
+  puts "Carregando"
+  require 'selenium/rake/tasks'
+  puts "Carregado"
+rescue LoadError
+  raise("You should install selenium-client gem with 'sudo gem install selenium-client'")
+end
 
 Selenium::Rake::RemoteControlStartTask.new do |rc|
   require File.dirname(__FILE__) + '/../lib/selenium_inovare'

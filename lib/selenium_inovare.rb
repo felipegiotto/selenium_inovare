@@ -34,7 +34,7 @@ end
 
 module SeleniumInovare
 
-  DEFAULT_SELENIUM_PARAMS = {'selenium_server_port' => 4444, 'application_server_url' => 'http://localhost:3000'}
+  DEFAULT_SELENIUM_PARAMS = {'selenium_server_port' => 4444, 'application_server_url' => 'http://localhost:3000', 'application_server_environment' => 'development'}
   SELENIUM_CONFIG_FILE = RAILS_ROOT + '/test/selenium_inovare/config.yml'
 
   unless File.exists?(SELENIUM_CONFIG_FILE)
@@ -52,17 +52,52 @@ module SeleniumInovare
 
   class TestCase < ActiveSupport::TestCase
 
+    @@fixtures = nil
+    def self.fixtures(*fixtures)
+      @@fixtures = fixtures
+    end
+
+    def link(link_description, link_href = nil)
+      tag = "//a[text()='#{link_description}']"
+      if link_href
+        tag << "[@href='#{link_href}']"
+      end
+      tag
+    end
+
+    def input(name)
+      "//input[@name='#{name}']"
+    end
+
+    def submit(value = '')
+      tag = "//input[@type='submit']"
+      unless value.blank?
+        tag << "[@value='#{value}']"
+      end
+      tag
+    end
+
     def run(*args, &block)
       return if method_name =~ /^default_test$/
 
       begin
         selenium_server_port = SeleniumInovare::PARAMS['selenium_server_port'] || raise
         application_server_url = SeleniumInovare::PARAMS['application_server_url'] || raise
+        fixtures_environment = SeleniumInovare::PARAMS['application_server_environment'] || raise
       rescue
         raise "File test/selenium_inovare/config.yml has an invalid structure! If you can't fix it, delete it so it can be generated again."
       end
 
       begin
+        if @@fixtures
+          puts "Loading fixtures..."
+          if @@fixtures == [:all]
+            puts `rake db:fixtures:load RAILS_ENV=#{fixtures_environment}`
+          else
+            puts `rake db:fixtures:load RAILS_ENV=#{fixtures_environment} FIXTURES=#{ @@fixtures.join ',' }`
+          end
+        end
+        
         @browser = Selenium::Client::Driver.new \
           :host => 'localhost',
           :port => selenium_server_port,

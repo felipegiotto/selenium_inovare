@@ -15,6 +15,11 @@ module Selenium::Client::Protocol
   #
   #  alias_method_chain :remote_control_command, :symbols
 
+  def click_and_wait(*locator)
+    click(*locator)
+    wait_for_page_to_load
+  end
+
   def remote_control_command(verb, args=[])
     args.collect! do |arg|
       if arg.is_a? Symbol
@@ -56,11 +61,6 @@ module SeleniumInovare
     @@fixtures = nil
     def self.fixtures(*fixtures)
       @@fixtures = fixtures
-    end
-
-    def click_and_wait(*locator)
-      click(*locator)
-      wait_for_page_to_load
     end
 
     def link(link_description, link_href = nil)
